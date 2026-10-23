@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Verification Result | Fake Product Detector{% endblock %}
+
+{% block content %}
+{% set result_class = {
+    "Likely Original": "success",
+    "Suspicious": "warning",
+    "Likely Fake": "danger",
+    "Not Verified": "secondary"
+}.get(verification.result, "secondary") %}
+{% set display_result = verification.result %}
+{% if display_result == "Likely Original" %}
+    {% set display_result = "Likely Real" %}
+{% endif %}
+
+<div class="container mb-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 mb-1">Verification result</h1>
+            <p class="text-muted mb-0">
+                Checked {{ verification.created_at.strftime("%b %d, %Y at %I:%M %p") }}
+            </p>
+        </div>
+        <a class="btn btn-outline-primary" href="{{ url_for('scan') }}">Verify another product</a>
+    </div>
+
+    <div class="card p-4 mb-4 border-start border-4 border-{{ result_class }}">
+        <div class="row align-items-center g-4">
+            <div class="col-md">
+                <span class="badge text-bg-{{ result_class }} mb-2">{{ display_result }}</span>
+                <h2 class="h4">
+                    {% if verification.product %}
+                        {{ verification.product.name }}
+                    {% elif verification.image_score is not none and verification.image_score >= 80 %}
+                        Reference image recognized
+                    {% else %}
+                        Product not identified
+                    {% endif %}
+                </h2>
+                {% if verification.product and verification.product.brand %}
+                    <p class="text-muted mb-0">{{ verification.product.brand }}</p>
+                {% elif verification.product %}
+                    <p class="text-muted mb-0">Product identified from the scan.</p>
+                {% elif verification.image_score is not none and verification.image_score >= 80 %}
+                    <p class="text-muted mb-0">Matches a saved real-product reference image.</p>
+                {% else %}
+                    <p class="text-muted mb-0">Product not identified from the scan.</p>
+                {% endif %}
+            </div>
+            <div class="col-md-auto text-md-end">
+                {% if verification.image_score is not none %}
+                    <div class="display-5 fw-bold">{{ "%.0f"|format(verification.image_score) }}%</div>
+                    <div class="text-muted">Image reference similarity</div>
+                {% else %}
+                    <div class="h3 fw-bold">N/A</div>
+                    <div class="text-muted">image comparison unavailable</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if verification.result == "Not Verified" %}
+    <div class="alert alert-info" role="alert">
+        No image comparison result is available. Try scanning a clear image of the product.
+    </div>
+    {% elif verification.result != "Likely Original" %}
+    <div class="alert alert-warning" role="alert">
+        This automated result is a screening signal, not proof that the product is counterfeit.
+        Confirm concerns with the manufacturer or an authorized seller before making a decision.
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <section class="card p-4 h-100">
+                <h2 class="h4 mb-3">What affected this result</h2>
+                <div class="d-grid gap-3">
+                    {% for finding in findings %}
+                    {% set finding_class = {
+                        "warning": "warning",
+                        "positive": "success",
+                        "info": "info"
+                    }.get(finding.kind, "secondary") %}
+                    <div class="alert alert-{{ finding_class }} mb-0">
+                        <strong>{{ finding.title }}</strong>
+                        <div>{{ finding.detail }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-5">
+            <section class="card p-4 h-100">
+                <h2 class="h4 mb-3">Image check</h2>
+                {% if verification.image_score is not none %}
+                {% set image_score = verification.image_score %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Image reference similarity</span>
+                        <strong>{{ "%.0f"|format(image_score) }}%</strong>
+                    </div>
+                    <div class="progress" role="progressbar"
+                         aria-label="Image reference similarity"
+                         aria-valuenow="{{ image_score }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: {{ image_score }}%"></div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">No image comparison score is available.</p>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+
+    <section class="card p-4 mt-4">
+        <h2 class="h4">Scan details</h2>
+        {% if verification.image_path %}
+        <img class="img-thumbnail mb-3" src="{{ url_for('static', filename=verification.image_path) }}"
+             alt="Uploaded product photo" style="max-height: 280px; width: fit-content">
+        {% endif %}
+        <dl class="row mb-0">
+            <dt class="col-sm-3">{{ verification.detected_code_type or "Detected code" }} value</dt>
+            <dd class="col-sm-9">{{ verification.detected_barcode or "Not detected" }}</dd>
+        </dl>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>
+        Admin Dashboard
+    </h2>
+
+    <div class="row mt-4">
+
+        <div class="col-md-2">
+
+            <div class="dashboard-card">
+
+                <h3>{{ total }}</h3>
+
+                <p>Total Checks</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="dashboard-card">
+
+                <h3>{{ genuine }}</h3>
+
+                <p>Genuine</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="dashboard-card">
+
+                <h3>{{ fake }}</h3>
+
+                <p>Fake</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="dashboard-card">
+
+                <h3>{{ suspicious }}</h3>
+
+                <p>Suspicious</p>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="dashboard-card">
+
+                <h3>{{ not_verified }}</h3>
+
+                <p>Not Verified</p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row mt-4">
+
+        <div class="col-md-3">
+
+            <div class="stat-card">
+
+                <h3>{{ users }}</h3>
+
+                <p>Users</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="stat-card">
+
+                <h3>{{ products }}</h3>
+
+                <p>Products</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="stat-card">
+
+                <h3>{{ reports }}</h3>
+
+                <p>Pending Reports</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="mt-5">
+
+        <a
+            href="{{ url_for('admin_products') }}"
+            class="btn btn-primary">
+
+            Products
+
+        </a>
+
+        <a
+            href="{{ url_for('sellers') }}"
+            class="btn btn-secondary">
+
+            Sellers
+
+        </a>
+
+        <a
+            href="{{ url_for('admin_reports') }}"
+            class="btn btn-danger">
+
+            Reports
+
+        </a>
+
+        <a
+            href="{{ url_for('analytics') }}"
+            class="btn btn-success">
+
+            Analytics
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

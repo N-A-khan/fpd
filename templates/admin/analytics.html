@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>
+        Fake Product Reports
+    </h2>
+
+    <table class="table table-bordered mt-4">
+
+        <thead>
+
+            <tr>
+
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Seller</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for report in reports %}
+
+            <tr>
+
+                <td>
+                    {{ report.product_name }}
+                </td>
+
+                <td>
+                    {{ report.brand }}
+                </td>
+
+                <td>
+                    {{ report.seller_name }}
+                </td>
+
+                <td>
+                    {{ report.reason }}
+                </td>
+
+                <td>
+                    {{ report.status }}
+                </td>
+
+                <td>
+
+                    <a
+                        href="{{ url_for(
+                            'update_report',
+                            report_id=report.id,
+                            status='Investigating'
+                        ) }}"
+                        class="btn btn-sm btn-warning">
+
+                        Investigate
+
+                    </a>
+
+                    <a
+                        href="{{ url_for(
+                            'update_report',
+                            report_id=report.id,
+                            status='Resolved'
+                        ) }}"
+                        class="btn btn-sm btn-success">
+
+                        Resolve
+
+                    </a>
+
+                    <a
+                        href="{{ url_for(
+                            'update_report',
+                            report_id=report.id,
+                            status='Rejected'
+                        ) }}"
+                        class="btn btn-sm btn-danger">
+
+                        Reject
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

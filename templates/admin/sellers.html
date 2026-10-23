@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <h2>Sellers</h2>
+
+        <a href="{{ url_for('add_seller') }}" class="btn btn-success">
+            Add Seller
+        </a>
+
+    </div>
+
+    <table class="table table-bordered mt-4">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Verified</th>
+                <th>Reports</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for seller in sellers %}
+            <tr>
+                <td>{{ seller.name }}</td>
+                <td>{{ seller.email or '-' }}</td>
+                <td>{{ seller.phone or '-' }}</td>
+                <td>{{ 'Yes' if seller.verified else 'No' }}</td>
+                <td>{{ seller.reports }}</td>
+                <td>
+                    <a
+                        href="{{ url_for('toggle_seller', seller_id=seller.id) }}"
+                        class="btn btn-sm btn-warning">
+                        Toggle verification
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center">No sellers found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

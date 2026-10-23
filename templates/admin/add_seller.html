@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card p-4">
+
+        <h2>Add Seller</h2>
+
+        <form method="POST">
+
+            <input
+                name="name"
+                class="form-control mb-3"
+                placeholder="Seller Name"
+                required
+            >
+
+            <input
+                name="email"
+                type="email"
+                class="form-control mb-3"
+                placeholder="Email"
+            >
+
+            <input
+                name="phone"
+                class="form-control mb-3"
+                placeholder="Phone"
+            >
+
+            <div class="form-check mb-3">
+
+                <input
+                    type="checkbox"
+                    name="verified"
+                    class="form-check-input"
+                    id="verified"
+                >
+
+                <label
+                    for="verified"
+                    class="form-check-label">
+
+                    Verified Seller
+
+                </label>
+
+            </div>
+
+            <button class="btn btn-success">
+
+                Add Seller
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

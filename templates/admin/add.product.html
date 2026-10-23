@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card p-4">
+
+        <h2>Add Genuine Product</h2>
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label>Product Name</label>
+
+                <input
+                    name="name"
+                    class="form-control"
+                    required
+                >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Brand</label>
+
+                <input
+                    name="brand"
+                    class="form-control"
+                    required
+                >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Category</label>
+
+                <input
+                    name="category"
+                    class="form-control"
+                >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Barcode or QR code value</label>
+
+                <input
+                    name="barcode"
+                    class="form-control"
+                    value="{{ barcode }}"
+                    required
+                >
+                <small class="form-text text-muted">
+                    Enter the exact code that should identify this registered product.
+                </small>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Manufacturer</label>
+
+                <input
+                    name="manufacturer"
+                    class="form-control"
+                >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Batch Format</label>
+
+                <input
+                    name="batch_format"
+                    class="form-control"
+                >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Seller</label>
+
+                <select
+                    name="seller_id"
+                    class="form-control">
+
+                    <option value="">
+                        Select Seller
+                    </option>
+
+                    {% for seller in sellers %}
+
+                    <option value="{{ seller.id }}">
+
+                        {{ seller.name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <button class="btn btn-success">
+
+                Add Product
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

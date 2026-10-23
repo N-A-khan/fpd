@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home - Fake Product AI
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="hero text-center">
+
+        <h1>
+            AI-Based Fake Product Detection
+        </h1>
+
+        <p class="lead">
+
+            Verify products using image analysis,
+            OCR, barcode verification and
+            verification evidence scoring.
+
+        </p>
+
+        <a
+            href="{{ url_for('scan') }}"
+            class="btn btn-primary btn-lg">
+
+            Scan Product
+
+        </a>
+
+    </div>
+
+
+    <div class="row mt-5">
+
+        <div class="col-md-2">
+
+            <div class="stat-card">
+
+                <h3>{{ total }}</h3>
+
+                <p>Products Checked</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="stat-card">
+
+                <h3>{{ genuine }}</h3>
+
+                <p>Likely Genuine</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="stat-card">
+
+                <h3>{{ fake }}</h3>
+
+                <p>Likely Fake</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="stat-card">
+
+                <h3>{{ suspicious }}</h3>
+
+                <p>Suspicious</p>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="stat-card">
+
+                <h3>{{ not_verified }}</h3>
+
+                <p>Not Verified</p>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
